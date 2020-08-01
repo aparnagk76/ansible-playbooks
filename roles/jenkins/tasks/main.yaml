@@ -1,9 +1,10 @@
 ---
-- name: Install wget & java8
+- name: Install wget, java8 & git
   yum:
     name:
       - wget
       - java-1.8.0-openjdk
+      - git
 
 - name: Add jenkins.repo
   get_url:
