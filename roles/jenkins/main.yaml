@@ -30,3 +30,13 @@
         name: jenkins
         state: started
         enabled: true
+    
+    - name: Copy Jenkins initialAdminPassword
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
+
+    - name: Print Jenkins initialAdminPassword to stdout
+      debug:
+        var: result.stdout
+    
