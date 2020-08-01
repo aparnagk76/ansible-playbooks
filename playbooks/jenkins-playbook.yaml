@@ -1,0 +1,7 @@
+---
+- name: Install Jenkins
+  hosts: localvm
+  gather_facts: false
+  become: true
+  roles:
+  - jenkins
