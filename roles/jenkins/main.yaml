@@ -31,6 +31,9 @@
         state: started
         enabled: true
     
+    - name: Wait for 30 secs for jenkins to startup
+      wait_for: timeout=30
+    
     - name: Copy Jenkins initialAdminPassword
       shell: cat /var/lib/jenkins/secrets/initialAdminPassword
       changed_when: false
