@@ -24,3 +24,9 @@
       yum:
         name: jenkins
         state: present
+        
+    - name: Start Jenkins and enable systemd
+      systemd:
+        name: jenkins
+        state: started
+        enabled: true
