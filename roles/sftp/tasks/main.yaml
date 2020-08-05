@@ -1,0 +1,49 @@
+- name: Create a directory if it does not exist
+  file:
+    path: /data/sftp
+    state: directory
+    mode: '701'
+
+- name: Ensure group "sftpusers" exists
+  group:
+    name: sftpusers
+    state: present
+
+- name: Add the user 'sftpauto' with a specific uid and a primary group of 'sftpusers'
+  user:
+    name: sftpauto
+    comment: Sftp User
+    uid: 1040
+    group: sftpusers
+    password: $6$mysecretsalt$EDJBe8bLUKjct3jRv7d.D3RFGjkJJ7NnK0zve2AYB2TV5Cv48lWvAfRuGqjf8e6DNFWdKpa82Lcx1VUPK6R1k.
+
+- name: Create a directory if it does not exist
+  file:
+    path: /data/sftpauto/upload
+    state: directory
+
+- name: Change file ownership, group and permissions
+  file:
+    path: /data/sftpauto
+    owner: root
+    group: sftpusers
+
+- name: Change file ownership, group and permissions
+  file:
+    path: /data/sftpauto/upload
+    owner: sftpauto
+    group: sftpusers
+
+- name: Copy sshd conf
+  copy:
+    src: ../files/sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: sftpauto
+    group: sftpusers
+    mode: '0644'
+
+- name: restart sshd on centos, in all cases, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: sshd

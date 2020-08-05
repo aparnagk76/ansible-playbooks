@@ -1,7 +1,7 @@
 ---
-- name: Install Jenkins
+- name: Setup sftp
   hosts: linux
   gather_facts: false
   become: true
   roles:
-  - jenkins
+  - sftp
